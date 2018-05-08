@@ -1,0 +1,156 @@
+---
+title: "Assignment2"
+author: "Jonathan Marin"
+date: "January 18, 2018"
+output: html_document
+---
+
+
+
+#Question 1
+
+##What is the Basic workflow for reproducible research?
+
+* Data Gathering
+* Data Analysis
+* Results Representation
+
+##What are five practical tips for making research reproducible?
+
+* Document everything
+* Everything is a text file
+* All files should be human readable
+* Explicity tie your files together
+* Have a plan to organize, store, and make your files available
+
+##Give an example of how you might implement each tip. 
+
+* Document everything  ~  Example: Make sure to keep track of R Version as they update every 6 months
+* Everything is a text file ~ Text files (.txt) are nimble and won't stop working with new versions of other applications
+* All files should be human readable ~ Treat all research files as if someone who has not worked on the project can understand it and use comments in code
+* Explicity tie your files together ~  Files have relationships between each other and should be documented 
+* Have a plan to organize, store, and make your files available ~ Files need to be orgazined and object oriented as possible and should be modular. 
+
+
+##Which one of these do you think will be the most difficult? 
+
+This is tough.  I think documenting everything is the most difficult for me.  Often times, I can go off and write working code for hours without a entering a single line
+of comments because I know what it is doing and at work, people don't question my code or sql that often enough to need to see the comments.  If so, I can explain it. Getting used to putting that in so that the code isn't dependent on me will be a big change. 
+
+#Question 2
+
+
+
+
+```{r air_hist}
+knitr::opts_chunk$set(echo = TRUE)
+
+###################################################################################
+# air_hist.R - Unit 2 Live Session Homework
+###################################################################################
+# Note: Please reformat these to place into your RMarkdown submission document.
+# You can make sure it works here, but make it easy for your grader via RMD
+###################################################################################
+
+# You are responsible for the TODOs, but the complete code here will give you
+# an idea of what the data look like.  Remember, you might need some of this code 
+# directly in your response file to make it work, even if it's not TODO!!
+
+# We will be using the built-in dataset airquality which has daily air quality 
+# measurements in New York from May to September 1973
+str(airquality)
+
+# Take only Temp columns
+Temperature <- airquality$Temp
+hist(Temperature)
+
+# Histogram with added parameters
+hist(Temperature,
+     main="Maximum daily temperature at La Guardia Airport",
+     xlab="Temperature in degrees Fahrenheit",
+     xlim=c(50,100),
+     col="darkmagenta",
+     freq=FALSE
+)
+
+
+```
+
+
+##Q2A
+
+```{r Q2A, echo=TRUE}
+# TODO: Assignment 2, Q2A: Complete the following code to yield a scatterplot with x as Month and y as Temp
+# You're going to customize your plot slightly.  Use the help function to assist you if needed.
+# Make the x label "Month" and the y label "Temperature"
+# Finally, make the title of the plot "Temperature by Month" 
+plot(x=airquality$Month, y=airquality$Temp, main = "Temperature by Month")
+
+```
+
+
+##Q2b
+
+```{r Q2B, echo=TRUE}
+# TODO: Assignment 2, Q2B: Build a scatter plot with x as Temperature and y as Ozone 
+# Complete the following code:
+# Make the x label "Temperature" and the y label "Ozone",
+# Make the title of the plot "Temperature vs Ozone"
+plot(x=airquality$Temp, y=airquality$Ozone, main = "Temperature vs Ozone")
+```
+
+
+#Question 3
+
+```{r cars}
+summary(cars)
+```
+
+```{r cars_plot, echo=FALSE}
+plot(cars)
+```
+
+## Including Plots
+```{r pressure_data}
+summary(pressure)
+```
+
+You can also embed plots as default, for example:
+<!--
+TODO: Assignment 2: 3A, complete the following scatter plot. 
+The x axis is pressure, while the y axis is temperature
+Please title the graph "Temperature vs Pressure"
+-->
+```{r pressure_plot, echo=TRUE}
+data <- pressure
+
+plot(data$pressure, data$temperature , main = "Temperature vs Pressure")
+```
+
+Now flip it!
+
+<!--
+TODO: Assignment 2: 3B, complete the following scatter plot:
+x axis is pressure, y axis is temperature,
+Label the x axis as "Pressure" and the y axis as "Temperature", 
+Title the graph as "Pressure vs Temperature"
+
+This question is wrong if we are supposed to flip the axis from 3a. Re-wording the question based off of question and rmarkdown text. 
+
+ToDO should be the following:
+
+TODO: Assignment 2: 3B, complete the following scatter plot:
+x axis is temperature, y axis is pressure ,
+Label the x axis as "Temperature" and the y axis as "Pressure", 
+Title the graph as "Pressure vs Temperature"
+
+-->
+
+```{r pressure_plot2, echo=TRUE}
+
+
+
+plot(data$temperature, data$pressure, main = "Pressure vs Temperature", xlab = "Temperature", ylab = "Pressure")
+
+
+```

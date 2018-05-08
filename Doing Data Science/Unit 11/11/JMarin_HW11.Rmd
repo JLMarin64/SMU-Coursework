@@ -1,0 +1,116 @@
+---
+title: "JMarin_Unit11"
+author: "Jonathan Marin"
+date: "March 30, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Warmup
+
+```{r}
+
+
+setwd("C:/Users/Marin Family/Desktop/Doing Data Science/Unit 11/11")
+
+EU <- as.data.frame(EuStockMarkets)
+
+Dax <- as.data.frame(EU$DAX)
+
+Dax <- ts(Dax,  start = 1991, end = 1998, frequency = 4)
+
+plot(Dax, col = "blue")
+abline(v=1997, col = "red")
+
+DaxDecompse <- decompose(Dax, type = "mult")
+plot(DaxDecompse, col = "blue")
+abline(v=1997, col = "red")
+
+```
+
+# Temperature Data
+
+
+
+```{r}
+library(forecast)
+library(fpp2)
+
+
+maxitemp <- maxtemp
+
+#minimizing the time series window
+maxitemp <- window(maxitemp, start = 1989.5)
+
+maxtempF5 <-ses(maxitemp, initial = "optimal", h = 5)
+
+plot(maxtempF5)
+lines(fitted(maxtempF5), col="blue")
+
+AICc <- as.numeric(maxtempF5$model[4])
+
+
+holtmaxtempF <- holt(maxitemp, initial = "optimal" , h = 5)
+
+plot(maxtempF5)
+lines(fitted(maxtempF5), col="blue")
+
+
+holtAICc <- as.numeric(holtmaxtempF$model[4])
+
+if (AICc < holtAICc)
+{
+  print("The SES AICc is better.")
+} else {
+  print("The Holt AICc is better.")
+  }
+
+
+```
+
+
+
+# 3) The Wand Chooses You
+
+```{r}
+library(dygraphs)
+library(sqldf)
+library(xts)
+
+
+Greg <- read.csv("Unit11TimeSeries_Gregorovitch.csv", header = FALSE)
+
+Ollie <- read.csv("Unit11TimeSeries_Ollivander.csv", header = FALSE)
+
+class(Greg$V1)
+
+Greg$V1 <- as.Date(Greg$V1, format = "%m/%d/%Y")
+Ollie$V1 <- as.Date(Ollie$V1, format = "%m/%d/%Y")
+
+Greg$Maker <- "Gregorovitch"
+Ollie$Maker <- "Ollivander"
+
+colnames(Greg)[colnames(Greg)=="V1"] <- "Date"
+
+colnames(Greg)[colnames(Greg)=="V2"] <- "Units"
+
+colnames(Ollie)[colnames(Ollie)=="V1"] <- "Date"
+
+colnames(Ollie)[colnames(Ollie)=="V2"] <- "Units"
+
+Gregorovitch <- xts(Greg$Units, order.by = Greg$Date)
+Ollivander <- xts(Ollie$Units, order.by = Ollie$Date)
+
+Wand <- merge(Gregorovitch, Ollivander)
+
+
+dygraph(Wand, main="Wands Sold by Year", ylab="Units", xlab="Date", group = "Maker") %>% 
+  dyRangeSelector(height=100) %>%
+  dyShading(from = "1995-1-1", to = "1999-1-1", color = "#FFE6E6")
+
+  
+
+```
